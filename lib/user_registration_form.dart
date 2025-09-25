@@ -9,6 +9,7 @@ class UserRegistrationForm extends StatefulWidget {
 
 class _UserRegistrationFormState extends State<UserRegistrationForm> {
   final _formKey = GlobalKey<FormState>();
+  final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
@@ -30,6 +31,7 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
     _emailController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
+    _nameController.dispose();
     super.dispose();
   }
 
@@ -43,6 +45,24 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
           key: _formKey,
           child: Column(
             children: [
+              // Name Field
+              TextFormField(
+                controller: _nameController,
+                decoration: const InputDecoration(
+                  labelText: "Nama",
+                  prefixIcon: Icon(Icons.person),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Nama tidak boleh kosong";
+                  } else if (RegExp(r'[0-9]').hasMatch(value)) {
+                    return "Format nama tidak valid";
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 16),
+
               // Email Field
               TextFormField(
                 controller: _emailController,
